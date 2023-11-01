@@ -1,0 +1,49 @@
+nav ul{
+    height: 90%;
+    width: 100%;
+}
+
+nav ul {
+    overflow: hidden;
+    overflow-y: scroll;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+/* Style the list (remove margins and bullets, etc) */
+ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+/* Style the list items */
+ul li {
+    border: 1px solid #ddd;
+    margin-top: -1px;
+    /* Prevent double borders */
+    background-color: #f6f6f6;
+    padding: 6px;
+    text-decoration: none;
+    font-size: 10px;
+    color: black;
+    display: block;
+    position: relative;
+}
+
+/* Add a light grey background color on hover */
+ul li:hover {
+    background-color: #eee;
+}
+
+/* Style the close button (span) */
+.close {
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    right: 0%;
+    padding: 2px 5px;
+    transform: translate(0%, -50%);
+}

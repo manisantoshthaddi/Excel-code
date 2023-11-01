@@ -1,0 +1,17 @@
+/* Style for the schema items */
+.schema-item {
+    background-color: #368ac0;
+    color: white;
+    padding: 5px;
+    margin-top: 10px;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    overflow: hidden; 
+    /* overflow-y: scroll; */
+  }
+  
+  .schema-item:hover {
+    background-color: #19caf1; /* Darker background on hover */
+  }
+  

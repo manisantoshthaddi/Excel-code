@@ -1,0 +1,219 @@
+<!-- Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT License. -->
+<!-- 
+    Authors: Raghavender Hariharan, Singuri Suchith, Rohit Bhrugumalla, Ujwala Parupudi
+    Team: Platform Technology Group
+    Description: This code is used to develop an Excel Add-In that lets the user upload their 
+    worksheets into ION via IMS (ION V2 Messaging Service) or into Infor Datalake via Data fabric 
+    ingestion APIs. Users can also retrieve data from Infor Datalake into Excel Worksheets.
+    Instructions Folder: Contains the HTML code for displaying the instruction and description for the 
+    Add-In. 
+-->
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+  <!-- Office JavaScript API -->
+  <script type="text/javascript" src="https://appsforoffice.microsoft.com/lib/1.1/hosted/office.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+  <style>
+    table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+
+    th,
+    td {
+      border: 2px solid #000;
+      padding: 8px;
+      text-align: left;
+    }
+  </style>
+</head>
+<body style="background-color: #e6e6e6;">
+  <div style="padding: 10px; font-size: 13px">
+    <h3 style="font-size: 16px; margin-bottom: 20px;" class="ng-binding">Infor OS Add-In For Excel, version: 2023.01.00</h3>
+    <h4 style="font-size: 16px; margin-bottom: 20px;" class="ng-binding">Documentation and Deliverables:</h4>
+      <div>        
+        <ul>          
+          <li><a href="https://d3bql97l1ytoxn.cloudfront.net/app_resources/406377/documentation/1305473_1672850043591_en-US.pdf" target="_blank" style="padding: 0px; margin: 0px">User Guide</a></li>          
+          <li><a href="https://market.infor.com/en-US/apps/406377/infor-os-add-in-for-microsoft-excel" target="_blank" style="padding: 0px; margin: 0px">Marketplace Deliverables</a></li>        
+        </ul>    
+      </div>
+    <h4 style="font-size: 16px; margin-bottom: 20px;" class="ng-binding">Common FAQ's:</h4>
+    <label class="ms-fontWeight-semibold">1. What are the required permissions for the user to use this addin ?</label>
+      <div>
+        <br>
+        <ul>
+          <table>
+            <tr>
+              <th>Security Role</th>
+              <th>Used for</th>
+            </tr>
+            <tr>
+              <td>DATAFABRIC-SuperAdmin</td>
+              <td>To Data Lake, From Data Lake</td>
+            </tr>
+            <tr>
+              <td>IONDeskAdmin</td>
+              <td>To IMS</td>
+            </tr>
+          </table>
+          <br>
+          <li>If you don't have the required permissions ,please ask the Mingle Administrator for the tenant</li>
+        </ul>
+      </div>
+
+      <label class="ms-fontWeight-semibold">2. What is the purpose of the new icon beside 'Enter your Query' under 'From
+        Data Lake' </label>
+      <div>
+        <ul>
+          <li>A new feature has been added to the Add-In where user can save the 20 most used queries and use them
+            directly instead of typing the entire query.</li>
+          <li>Once the user clicks on the 'View Favorites' icon a new Popup opens having a text area , where user can
+            enter the query and click on the 'Add to Favorites' icon on the top.The query gets added in the list below.
+          </li>
+          <li>To select a particular query,user needs to click on the 'Select Query' button .
+          </li>
+          <li>To remove a query from the table,user needs to click on the 'Delete Query' button.</li>
+        </ul>
+      </div>
+
+      <label class="ms-fontWeight-semibold">3. How do I add and activate a profile?</label>
+      <div>
+        <ul>
+          <li>Once the Add-In has loaded click on Authenticate Button , a Popup opens having a "CHOOSE FILE" button and a list of already existing
+            authorized ionapi files (If added before).</li>
+          <li>Click on "CHOOSE FILE" button (if you want to use a file which is not in visible in the list shown below).
+          </li>
+          <li>The file being uploaded should be of type "WebApp" and of extension "ionapi". A system administrator will
+            provide this file to you. Please refer to the <a href="https://docs.infor.com/ionapi/2021-x/en-us/ionapiag_cloud/default.html?helpcontent=fad1489670437409.html" target="_blank">user guide</a> for more instructions on Authorized Apps".</li>
+          <li>Once the file is added, select the tenant app you wish to access from the list displayed. </li>
+          <li>Infor Login Page is displayed and you will have to enter your login credentials and then click on "Login".
+            A new page will be loaded which asks you to click on "Allow" ,please click on "Allow" after verifying the
+            Tenant name.
+          </li>
+          <li>Once the user is authenticated the window auto-closes and the "Authenticate" button turns into Green Color.</li>
+        </ul>
+      </div>
+
+      <label class="ms-fontWeight-semibold">4. How do I add more than one profile?</label>
+      <div>
+        <ul>
+          <li>Adding additional profiles is the same process as mentioned in step 1.</li>
+        </ul>
+      </div>
+      <label class="ms-fontWeight-semibold">5. How do I switch between profiles?</label>
+      <div class="pls">
+        <ul>
+          <li>Click on Authenticate Button , a pop up opens having a list of already existing authorized app files.</li>
+          <li>Click on desired file from the list displayed to sign in into the selected tenant.</li>
+          <li>Once user is authenticated, window auto-closes and the "Authenticate" button turns into Green Color.</li>
+        </ul>
+      </div>
+      <label class="ms-fontWeight-semibold">6. Can I have multiple active profiles at any given time?</label>
+      <div>
+        <ul>
+          <li>No. Although users can enter multiple profiles, only one profile can be active at a time.</li>
+        </ul>
+      </div>
+      <label class="ms-fontWeight-semibold">7. What functions does this Add-In provide?</label>
+      <div>
+        <ul>
+          <li>“To IMS” – This option is used to send the data from the excel sheet (either a selected sheet or All the
+            sheets in the Excel workbook) will be sent into ION through IMS(Infor Messaging Service).
+            While using “To IMS” option , user will have to enter the Logical ID of the active connection point being
+            used (More details on this can be found from the User Guide).
+            After entering the Logical ID , user can select either a single sheet or “ALL” to send all the sheets into
+            IMS.
+            Once both these fields are filled user can click on “Submit”. Once the Data has been sent one can see a
+            display on the Add-In and also check for more details in the “Sheet_Overview” sheet.
+          </li>
+          <li>
+            “To Data Lake” – This option is used to send the data from the excel sheet (either a selected sheet or
+            All the sheets in the Excel workbook) will be sent into ION Data Lake.
+            While using “To Data Lake” option , user will have to enter the Logical ID of a connection point being used
+            (More details on this can be found from the User Guide).
+            After entering the Logical ID , user can select either a single sheet or “ALL” to send all the sheets into
+            IMS.
+            Once both these fields are filled user can click on “Submit”.Once the Data has been sent ,user can see a
+            display on the Add-In and also check “Sheet_Overview” sheet for more details .
+          </li>
+          <li>
+            “From Data Lake” – This option is used to extract the data from Data Lake into the currently opened Excel
+            sheet .
+            While using “From Data Lake” one has to enter the query in the text box provided and also enter the name of
+            the sheet which stores the retrieved data .(Please make sure that the name of the sheet shouldn’t be the
+            same as the existing sheet in the workbook and also the name of the sheet entered should be less than 31
+            characters).
+          </li>
+          <li>
+            Note - When you are sending data through 'To IMS' or 'To Data Lake' option and if the object schema is of type JSON or NDJSON,
+            the data is converted from CSV to JSON or CSV to NDJSON respectively. If the object schema has any other data type, it
+            is sent as CSV only.
+          </li>
+        </ul>
+      </div>
+      <label class="ms-fontWeight-semibold">8. Why is a new Sheet called “Sheet_Overview” being added when we load the
+        Add-In ?</label>
+      <div>
+        <ul>
+          <li>Sheet_Overview is a new sheet being added by the Add-In to display various logs being generated during the
+            working of the Add-In. User can go through the Sheet_Overview to know the status of the tasks they have
+            performed using the Add-In.
+          </li>
+        </ul>
+      </div>
+      <label class="ms-fontWeight-semibold">9. When sending data to ION what happens to the data?</label>
+      <div>
+        <ul>
+          <li>If the option selected is 'To IMS' and the required configuration is done, then the sheet data is converted to the
+            target schema's respective format (CSV, JSON, NDJSON). Subsequently, the IMS API is called after which the data goes into ION. Further processing of the
+            data can be done using a Document Flow or a Data Lake Flow. For Example: The sheet data can be pushed into the Infor Data Lake by creating
+            a Data Lake Flow.
+          </li>
+          <li>If the option selected is 'To Data Lake', then the sheet data is converted to the target schema's respective format (CSV, JSON, NDJSON)
+            and the Infor Data Lake Ingestion API is called where the sheet Data is directly pushed to the Infor Data Lake.
+          </li>
+        </ul>
+      </div>
+      <label class="ms-fontWeight-semibold">10. What is the purpose of Limit and Offset in 'From DataLake' option?</label>
+      <div>
+        <ul>
+          <li>Limit and Offset can be used to retrieve a dynamic range of data.
+            Offset refers to the row number from which the data needs to be fetched. By default the value is '0'. 
+            For example if the offset value is 100, the first row of the sheet will be filled with 100th row value present in the object. 
+            Limit is the maximum number of rows in the result. By default it's value is '100,000'. For example if offset value is 500 and limit is 10000, the data from row numbers 500 to 10500 are fetched.
+          </li> 
+          <li>The value of Offset and Limit have to be a number.The maximum value of Limit is 100,000. The minimum value of Offset is 0.           
+          </li>
+        </ul>
+      </div> 
+      <h4 style="font-size: 16px; margin-bottom: 20px;" class="ng-binding">General Instructions to be followed:</h4>
+      <div>
+        <ul>
+          <li>This add-in only works with Infor OS in the Infor Cloud. On-premise Infor OS is not supported.</li>
+          <li>Make sure workbook format is .xlsx</li>
+          <li>Make sure you are not in edit mode while using any of the functions in the Add-in.</li>
+          <li>Make sure to signout from all tenants in the browser by clicking on "Click here to Signout from all active sessions",before selecting "Authenticate".</li>
+          <li>When you choose an ION API File, please complete the sign in procedure.</li>
+          <li>Make sure authenticate button is green in order use the add in properly.</li>
+          <li>In case of any issues, please reload the Add-In by closing and reopening the worksheet.</li>
+          <li>While sending data to “To IMS” or “To DataLake” please make sure to enter the Object Name of the document being sent in the A1 cell. 
+            Make sure that the case used for the schema is the same as the respective Object Schema defined. Please continue with the data from the next cell , i.e A2 onwards.</li>
+          <li>Make sure to not have formulas in any cells of the worksheet</li>
+          <li>In order to use "To Data Lake" and "From Data Lake" options make sure that the tenant being used has a working Infor Data Fabric API Suite and active endpoints</li>
+          <li>The Add-In is not supported on Internet Explorer 11. Please ensure to use the latest version of Microsoft 365 on any Operating System.</li>
+          <li>Information regarding Usage Limits can be checked here - <a href="https://docs.infor.com/inforos/12.0.x/en-us/usagelimits/default.html?helpcontent=ydt1657212131973.html" target="_blank">Infor OS Service Limits</a></li>
+        </ul>
+      </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"
+    integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"
+    integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13"
+    crossorigin="anonymous"></script>
+</body>
+</html>
